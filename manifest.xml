@@ -1,0 +1,19 @@
+<manifest xmlns:ml="magicleap"
+          ml:package="com.chaos.nms.xr"
+          ml:version_name="0.0.1"
+          ml:version_code="1">
+  <application ml:visible_name="NMS XR"
+               ml:sdk_version="1.0">
+    <component ml:name=".fullscreen"
+               ml:visible_name="NMS XR"
+               ml:binary_name="bin/index.js"
+               ml:type="Fullscreen">
+      <mode ml:shareable="true"/>
+      <icon ml:model_folder=""
+            ml:portal_folder=""/>
+    </component>
+    <uses-privilege ml:name="LowLatencyLightwear"/>
+    <uses-privilege ml:name="MagicScript"/>
+    <uses-privilege ml:name="PcfRead"/>
+  </application>
+</manifest>
