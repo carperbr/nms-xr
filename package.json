@@ -1,7 +1,8 @@
 {
   "scripts": {
     "build": "rollup -c",
-    "start": "magic-script run"
+    "launch": "magic-script run",
+    "install": "magic-script build -i"
   },
   "private": true,
   "devDependencies": {

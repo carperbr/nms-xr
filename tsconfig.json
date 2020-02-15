@@ -8,5 +8,11 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "typeRoots" : ["./node_modules/magic-script-typings", "./node_modules/@types"]
-  }
+  },
+
+  "exclude": [
+      "bin",
+      "node_modules",
+      ".out"
+  ]
 }

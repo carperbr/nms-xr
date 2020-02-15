@@ -1,5 +1,5 @@
 import gl from 'gl';
-import { Node } from "../scene";
+import { SceneNode } from "../scene";
 
 export abstract class QuadBuffer {
     vaoId: number;
@@ -31,14 +31,11 @@ export abstract class QuadBuffer {
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.eboId);
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), gl.DYNAMIC_DRAW);
 
-        this.render();
+        gl.drawElements(gl.TRIANGLES, this.indices.length, gl.UNSIGNED_SHORT, 0);
 
         gl.bindVertexArray(null);
     }
 
     // draws an array of nodes into the buffer.
-    abstract draw(...nodes: Node[]): void;
-
-    // renders the buffer - called from end.
-    protected abstract render(): void;
+    abstract draw(...nodes: SceneNode[]): void;
 }

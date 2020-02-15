@@ -1,2 +1,2 @@
-export * from "./Node";
-export * from "./SceneManager";
+export * from "./SceneNode";
+export * from "./NodeAnimator";

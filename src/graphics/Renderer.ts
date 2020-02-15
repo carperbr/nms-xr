@@ -11,7 +11,7 @@ export class Renderer {
     frameParams: ExclusiveRender.FrameParams;    
     eyeBuffer: Framebuffer;
     
-    constructor() {
+    private constructor() {
         egl.initialize(0, 0);
         egl.bindAPI(egl.OPENGL_ES_API);
         this.context = egl.createContext(3, 0);
@@ -19,7 +19,6 @@ export class Renderer {
         gl.enable(gl.DEPTH_TEST);
         gl.clearColor(0, 0, 1, 1.0);
         this.eyeBuffer = new Framebuffer();
-
         gl.disable(gl.CULL_FACE);
     }
 
@@ -29,15 +28,10 @@ export class Renderer {
         this.frameParams = new ExclusiveRender.FrameParams();
     }
 
-    b = 0;
-
     bindEyeBuffer(eye: number): void {
         this.eyeBuffer.bind();
         gl.framebufferTextureLayer(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, this.frameInfo.getColorId(), 0, eye);
-        gl.framebufferTextureLayer(gl.FRAMEBUFFER, gl.DEPTH_STENCIL_ATTACHMENT, this.frameInfo.getDepthId(), 0, eye);
-        
-        this.b = this.b > 1 ? 0 : this.b + 0.01;
-        
+        gl.framebufferTextureLayer(gl.FRAMEBUFFER, gl.DEPTH_STENCIL_ATTACHMENT, this.frameInfo.getDepthId(), 0, eye);        
         gl.clearColor(0, 0, 0.1, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     }
@@ -63,5 +57,14 @@ export class Renderer {
         let proj = mat4.create();
         mat4.copy(proj, <any>this.frameInfo.getProj(eye));
         return proj;
+    }
+
+    private static _instance: Renderer;
+    static get instance() {
+        if (!Renderer._instance) {
+            Renderer._instance = new Renderer();
+        }
+
+        return Renderer._instance;
     }
 }
