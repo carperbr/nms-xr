@@ -12,26 +12,24 @@ export class QuadBufferPC extends QuadBuffer {
         gl.enableVertexAttribArray(1);
         gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 7 * 4, 0);
         gl.vertexAttribPointer(1, 4, gl.FLOAT, false, 7 * 4, 3 * 4);
-        gl.bindVertexArray(null);
+        gl.bindVertexArray(null)
     }
 
     draw(...nodes: SceneNode[]): void {
         for (let node of nodes) {
-            let transform = node.getTransform();
-
             let va = vec3.fromValues(-0.5, 0.5, 0);
             let vb = vec3.fromValues(0.5, 0.5, 0);
             let vc = vec3.fromValues(0.5, -0.5, 0);
             let vd = vec3.fromValues(-0.5, -0.5, 0);
 
-            vec3.transformMat4(va, va, transform);
-            vec3.transformMat4(vb, vb, transform);
-            vec3.transformMat4(vc, vc, transform);
-            vec3.transformMat4(vd, vd, transform);
+            let mat = node.getTransform();
+            vec3.transformMat4(va, va, mat);
+            vec3.transformMat4(vb, vb, mat);
+            vec3.transformMat4(vc, vc, mat);
+            vec3.transformMat4(vd, vd, mat);
 
             let color = node.color;
             let colors = node.colors;
-
             let ca: vec4;
             let cb: vec4;
             let cc: vec4;
@@ -53,8 +51,8 @@ export class QuadBufferPC extends QuadBuffer {
                 vd[0], vd[1], vd[2], cd[0], cd[1], cd[2], cd[3]
             ];
 
-            let indices = [ 0, 1, 2, 2, 3, 0 ].map(i => i + this.indices.length);
-
+            let indices = [ 0, 1, 2, 2, 3, 0 ].map(i => this.indices.length > 0 ? (i + 1 + (this.indices.length / 2)) : i);
+            
             this.indices = this.indices.concat(indices);
             this.vertices = this.vertices.concat(vertices);
         }

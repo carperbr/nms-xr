@@ -31,9 +31,7 @@ export class Renderer {
     bindEyeBuffer(eye: number): void {
         this.eyeBuffer.bind();
         gl.framebufferTextureLayer(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, this.frameInfo.getColorId(), 0, eye);
-        gl.framebufferTextureLayer(gl.FRAMEBUFFER, gl.DEPTH_STENCIL_ATTACHMENT, this.frameInfo.getDepthId(), 0, eye);        
-        gl.clearColor(0, 0, 0.1, 1.0);
-        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        gl.framebufferTextureLayer(gl.FRAMEBUFFER, gl.DEPTH_STENCIL_ATTACHMENT, this.frameInfo.getDepthId(), 0, eye);
     }
 
     beginFrame(): void {

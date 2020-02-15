@@ -9,7 +9,7 @@ export abstract class QuadBuffer {
     vertices: number[];
     indices: number[];
 
-    constructor() {
+    protected constructor() {
         this.vaoId = gl.createVertexArray();
 
         gl.bindVertexArray(this.vaoId);

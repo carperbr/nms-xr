@@ -3,7 +3,7 @@ import { ServerEvent } from "lumin";
 export abstract class State {
     constructor(public name: string) {}
     abstract init(): void;
-    abstract eventListener(event: ServerEvent): void;
+    abstract eventListener(event: any): void;
     abstract update(delta: number): void;
     abstract draw(eye: number, delta: number): void;
     abstract deInit(): void;

@@ -1,4 +1,4 @@
-import { ImmersiveApp, ui, FPS_DELTA, ExclusiveRender, Prism, ServerEvent } from 'lumin';
+import { ImmersiveApp, ui, FPS_DELTA, ExclusiveRender, Prism, ServerEvent, PrivilegeId } from 'lumin';
 import { Renderer } from "./graphics";
 import { StateManager } from './state';
 import { SimpleTest } from './states';
@@ -6,10 +6,16 @@ import { SimpleTest } from './states';
 export class App extends ImmersiveApp {
     prism: Prism;
 
-    init () {
+    constructor(delta: number) {
+        super(delta);
+        App._instance = this;
+    }
+
+    init () {      
         this.setEventSleepTime(FPS_DELTA);
         this.setOcclusionEnabled(false);
         this.prism = this.requestNewPrism([6, 6, 6]);
+        this.selectPrism(this.prism, true);
         
         let options = new ExclusiveRender.ClientOptions();
         let exclusiveRender = this.startExclusiveModeGL(options, <any>Renderer.instance.context);

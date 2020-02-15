@@ -9,7 +9,7 @@
             "request": "attach",
             "name": "Attach to app",
             "address": "localhost",
-            "port": 9254,
+            "port": 14385,
             "protocol": "inspector",
             "localRoot": "${workspaceFolder}",
             "remoteRoot": "/"

@@ -14,6 +14,7 @@
     </component>
     <uses-privilege ml:name="LowLatencyLightwear"/>
     <uses-privilege ml:name="MagicScript"/>
+    <uses-privilege ml:name="ControllerPose"/>
     <uses-privilege ml:name="PcfRead"/>
   </application>
 </manifest>
