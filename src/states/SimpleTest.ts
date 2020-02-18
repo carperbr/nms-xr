@@ -11,6 +11,8 @@ import { ServerEvent, ControlPose6DofInputEventData, HandGestureFlags, ControlTo
 import { App } from "../app";
 import { CharBuffer } from "../graphics/CharBuffer";
 
+import * as integration from "../math";
+
 export class SimpleTest extends State {
     bufferPC: Program;
     quadBufferPC: QuadBufferPC;
@@ -31,8 +33,9 @@ export class SimpleTest extends State {
 
     arialJson: any;
     charBuffer: CharBuffer;
-
     textTransform: mat4;
+
+    integrator: integration.Integrator;
 
     constructor() {
         super("SimpleTest");
@@ -72,6 +75,8 @@ export class SimpleTest extends State {
 
         this.font = Texture.loadTexture("file://res/arial_0.png");
         this.charBuffer = new CharBuffer("file://res/arial.json");
+
+        this.integrator = new integration.Integrator(integration.LorenzSystem01);
     }
 
     async eventListener(event: ServerEvent) {
@@ -92,6 +97,9 @@ export class SimpleTest extends State {
 
     async update(delta: number) {
         this.delta = delta;
+        this.integrator.integrate(delta);
+        let state = this.integrator.state;
+        this.quad2.setPosition(state);
     }
 
     async preDraw() {
