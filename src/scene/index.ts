@@ -1,2 +1,2 @@
 export * from "./SceneNode";
-export * from "./NodeAnimator";
+export * from "./SceneNodeAnimator";

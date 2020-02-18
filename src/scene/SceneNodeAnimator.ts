@@ -1,6 +1,6 @@
 import { SceneNode } from "./SceneNode";
 
-export abstract class NodeAnimator {
+export abstract class SceneNodeAnimator {
     constructor() {
 
     }

@@ -17,7 +17,7 @@ export class StateManager {
         }
     }
 
-    eventListener(event: any) {
+    eventListener(event: ServerEvent) {
         if (this.currentState) {
             this.currentState.eventListener(event);
         }

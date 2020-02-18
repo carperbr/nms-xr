@@ -5,6 +5,7 @@ export enum ShaderType {
     Fragment = gl.FRAGMENT_SHADER
 }
 
+// TODO: Cache shaders
 export class Shader {
     id: number;
     type: ShaderType;

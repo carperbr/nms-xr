@@ -1,18 +1,18 @@
-import { vec3, quat, vec4, mat4 } from "gl-matrix"
-import { NodeAnimator } from "./NodeAnimator";
+import { vec3, quat, vec4, mat4, vec2 } from "gl-matrix"
+import { SceneNodeAnimator } from "./SceneNodeAnimator";
 
 export class SceneNode {
     position: vec3;
     rotation: quat;
     scale: vec3;
-
     color: vec4;
     colors: vec4[];
+    texCoords: vec2[];
+    text: string;
 
     parent: SceneNode;
     children: SceneNode[];
-
-    animators: NodeAnimator[];
+    animators: SceneNodeAnimator[];
 
     constructor(parent?: SceneNode) {
         if (parent) {
@@ -27,6 +27,14 @@ export class SceneNode {
         this.rotation = quat.create();
         this.scale = vec3.fromValues(1, 1, 1);
         this.color = vec4.fromValues(1, 1, 1, 1);
+
+        // default tex coords used with quads and cubes
+        this.texCoords = [
+            vec2.fromValues(0, 0),
+            vec2.fromValues(1, 0),
+            vec2.fromValues(1, 1),
+            vec2.fromValues(0, 1)
+        ];
     }
 
     addChild(node: SceneNode) {

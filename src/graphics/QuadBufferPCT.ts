@@ -3,15 +3,17 @@ import { SceneNode } from "../scene";
 import { mat4, vec3, vec4 } from "gl-matrix";
 import { QuadBuffer } from "./QuadBuffer";
 
-export class QuadBufferPC extends QuadBuffer {
+export class QuadBufferPCT extends QuadBuffer {
     constructor() {
         super();
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vboId);
         gl.enableVertexAttribArray(0);
         gl.enableVertexAttribArray(1);
-        gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 7 * 4, 0);
-        gl.vertexAttribPointer(1, 4, gl.FLOAT, false, 7 * 4, 3 * 4);
+        gl.enableVertexAttribArray(2)
+        gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 9 * 4, 0);
+        gl.vertexAttribPointer(1, 4, gl.FLOAT, false, 9 * 4, 3 * 4);
+        gl.vertexAttribPointer(2, 2, gl.FLOAT ,false, 9 * 4, 7 * 4);
         gl.bindVertexArray(null);
     }
 
@@ -45,10 +47,10 @@ export class QuadBufferPC extends QuadBuffer {
             }
 
             let vertices = [
-                va[0], va[1], va[2], ca[0], ca[1], ca[2], ca[3],
-                vb[0], vb[1], vb[2], cb[0], cb[1], cb[2], cb[3],
-                vc[0], vc[1], vc[2], cc[0], cc[1], cc[2], cc[3],
-                vd[0], vd[1], vd[2], cd[0], cd[1], cd[2], cd[3]
+                va[0], va[1], va[2], ca[0], ca[1], ca[2], ca[3], node.texCoords[0][0], node.texCoords[0][1],
+                vb[0], vb[1], vb[2], cb[0], cb[1], cb[2], cb[3], node.texCoords[1][0], node.texCoords[1][1],
+                vc[0], vc[1], vc[2], cc[0], cc[1], cc[2], cc[3], node.texCoords[2][0], node.texCoords[2][1],
+                vd[0], vd[1], vd[2], cd[0], cd[1], cd[2], cd[3], node.texCoords[3][0], node.texCoords[3][1]
             ];
 
             let offset = (this.indices.length / 6) * 4;

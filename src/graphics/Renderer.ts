@@ -9,7 +9,7 @@ export class Renderer {
     exclusiveRender: ExclusiveRender;
     frameInfo: ExclusiveRender.FrameInfo;
     frameParams: ExclusiveRender.FrameParams;    
-    eyeBuffer: Framebuffer;
+    eyeFBO: Framebuffer;
     
     private constructor() {
         egl.initialize(0, 0);
@@ -17,9 +17,7 @@ export class Renderer {
         this.context = egl.createContext(3, 0);
         egl.makeCurrent(null, null, this.context);
         gl.enable(gl.DEPTH_TEST);
-        gl.clearColor(0, 0, 1, 1.0);
-        this.eyeBuffer = new Framebuffer();
-        gl.disable(gl.CULL_FACE);
+        this.eyeFBO = new Framebuffer();
     }
 
     initialize(exclusiveRender: ExclusiveRender) {
@@ -28,8 +26,8 @@ export class Renderer {
         this.frameParams = new ExclusiveRender.FrameParams();
     }
 
-    bindEyeBuffer(eye: number): void {
-        this.eyeBuffer.bind();
+    bindEyeFBO(eye: number): void {
+        this.eyeFBO.bind();
         gl.framebufferTextureLayer(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, this.frameInfo.getColorId(), 0, eye);
         gl.framebufferTextureLayer(gl.FRAMEBUFFER, gl.DEPTH_STENCIL_ATTACHMENT, this.frameInfo.getDepthId(), 0, eye);
     }
