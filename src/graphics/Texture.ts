@@ -45,9 +45,7 @@ export class Texture {
                 gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, decoded);
 
                 if ((decoded.width & (decoded.width - 1)) === 0) {
-                    gl.generateMipmap(gl.TEXTURE_2D);
-                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+                    gl.generateMipmap(gl.TEXTURE_2D);                    
                 } else {
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
@@ -66,17 +64,21 @@ export class Texture {
         return texture;
     }
 
-    static createTexture(name: string, pic: number[], width: number, height: number) {
+    static createTexture(name: string, width: number, height: number, pic?: number[], internalFormat?: number, format?: number, type?: number) {
         let texture: Texture;
 
         if (Texture.cache.has(name)) {
-            texture = Texture.cache.get(name);
+            return Texture.cache.get(name);
         } else {
             texture = new Texture();
         }
 
         texture.bind();
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(pic));
+        gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat ? internalFormat : gl.RGBA, width, height, 0, format ? format : gl.RGBA, type ? type : gl.UNSIGNED_BYTE, pic ? new Uint8Array(pic) : null);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 
         Texture.cache.set(name, texture);
 

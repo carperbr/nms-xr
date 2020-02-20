@@ -72,7 +72,7 @@ export class CharBuffer {
 
         for (let char of text) {
             if (char == "\n") {
-                cursorY += this.lineHeight;
+                cursorY -= this.lineHeight;
                 cursorX = 0;
                 lastCode = -1;
             } else {

@@ -1,10 +1,13 @@
-import { ImmersiveApp, ui, FPS_DELTA, ExclusiveRender, Prism, ServerEvent, PrivilegeId } from 'lumin';
+import { ImmersiveApp, ui, FPS_DELTA, ExclusiveRender, Prism, ServerEvent, PrivilegeId, PrismDataHandle } from 'lumin';
 import { Renderer } from "./graphics";
 import { StateManager } from './state';
 import { SimpleTest } from './states';
 
 export class App extends ImmersiveApp {
     prism: Prism;
+    retainEyeTracking: PrismDataHandle;
+    headPoseUpdate: PrismDataHandle;
+    retainHeadPose: PrismDataHandle;
 
     constructor(delta: number) {
         super(delta);
@@ -15,8 +18,10 @@ export class App extends ImmersiveApp {
         this.setEventSleepTime(FPS_DELTA);
         this.setOcclusionEnabled(false);
         this.prism = this.requestNewPrism([6, 6, 6]);
+        this.retainEyeTracking = this.prism.retainEyeTrackingUpdates();
+        this.headPoseUpdate = this.prism.retainHeadposeUpdates();
         this.selectPrism(this.prism, true);
-        
+
         let options = new ExclusiveRender.ClientOptions();
         let exclusiveRender = this.startExclusiveModeGL(options, <any>Renderer.instance.context);
         Renderer.instance.initialize(exclusiveRender);
@@ -33,12 +38,11 @@ export class App extends ImmersiveApp {
         return false;
     }
 
-    updateLoop (delta: number) {        
+    updateLoop (delta: number) {
         StateManager.instance.update(delta);
         Renderer.instance.beginFrame();        
         StateManager.instance.draw(delta);
         Renderer.instance.endFrame();
-
         return true;
     }
 
