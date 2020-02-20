@@ -112,7 +112,7 @@ export class SimpleTest extends State {
         this.spaceQuad.setRotation([0, 0, 1], Math.PI / 4);
         
         this.spaceQuad2 = new SceneNode(this.root);
-        this.spaceQuad2.setPosition([1, 0, -2]);
+        this.spaceQuad2.setPosition([0, 0,-5]);
         this.spaceQuad2.setScale([0.66, 0.66, 0.66]);
         this.spaceQuad2.color = vec4.fromValues(1, 1, 0, 1);
 
@@ -174,7 +174,6 @@ export class SimpleTest extends State {
             mat4.getTranslation(camPos, camTransform);
 
             let srcTransform = this.spaceWindowPortal.getTransform();
-            mat4.rotateY(srcTransform, srcTransform, Math.PI);
             mat4.invert(srcTransform, srcTransform);
             let srcRot = quat.create();
             mat4.getRotation(srcRot, srcTransform);
@@ -195,7 +194,7 @@ export class SimpleTest extends State {
 
             mat4.identity(this.spaceView);
             mat4.translate(this.spaceView, this.spaceView, finalPosition);
-            mat4.rotate(this.spaceView, this.spaceView, finalRotation[0], [finalRotation[1], finalRotation[2], finalRotation[3]]);
+            mat4.rotate(this.spaceView, this.spaceView, finalRotation[3], [finalRotation[0], finalRotation[1], finalRotation[2]]);
         }  
     }
 
